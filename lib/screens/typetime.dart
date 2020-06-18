@@ -34,7 +34,7 @@ class _ScreenTypeTimeState extends State<ScreenTypeTime> {
                   body: "It's ${widget.type} time",
                   title: "${widget.type} time!")
               .showNotificationAfterDuration(
-            Duration(hours: 2),
+            Duration(seconds: 5),
           );
           provider.addTime(ModelToddlerTime(
               date: DateTime.now(),
