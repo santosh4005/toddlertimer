@@ -1,4 +1,4 @@
-package com.example.toddlertimer
+package com.chintamanenis.toddlertimer
 
 import io.flutter.embedding.android.FlutterActivity
 
