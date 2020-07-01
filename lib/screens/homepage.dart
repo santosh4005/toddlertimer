@@ -128,49 +128,62 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisSpacing: 8,
                       crossAxisSpacing: 8),
                   children: <Widget>[
-                    GridTile(
-                      child: InkWell(
-                          splashColor: Colors.purple,
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ScreenTypeTime("Bathroom");
-                              },
-                            ));
-                          },
-                          child: Card(
-                            elevation: 15,
-                            child: Icon(
-                              Customicon.toilet,
-                              color: Theme.of(context).accentColor,
-                              size: 80,
-                            ),
-                          )),
-                    ),
-                    GridTile(
-                      child: InkWell(
-                          splashColor: Colors.purple,
-                          highlightColor: Colors.green,
-                          onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ScreenTypeTime("Water");
-                              },
-                            ));
-                          },
-                          child: Card(
-                            elevation: 15,
-                            child: Icon(
-                              Customicon.droplets,
-                              color: Theme.of(context).accentColor,
-                              size: 80,
-                            ),
-                          )),
-                    ),
+                    buildGridTile(context,
+                        icon: Icon(
+                          Customicon.toilet,
+                          size: 80,
+                          color: Colors.white,
+                        ),
+                        name: "Bathroom",
+                        minutes: 120),
+                    buildGridTile(context,
+                        icon: Icon(
+                          Customicon.droplets,
+                          size: 80,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        name: "Water",
+                        minutes: 60),
+                    buildGridTile(context,
+                        icon: Icon(
+                          Icons.fastfood,
+                          size: 80,
+                          color: Colors.yellow,
+                        ),
+                        name: "Food",
+                        minutes: 120),
+                    buildGridTile(context,
+                        icon: Icon(
+                          Icons.motorcycle,
+                          size: 80,
+                          color: Colors.pink,
+                        ),
+                        name: "Play Time",
+                        minutes: 120),
                   ],
                 ),
         ),
       ),
+    );
+  }
+
+  GridTile buildGridTile(BuildContext context,
+      {Icon icon, String name, int minutes}) {
+    return GridTile(
+      child: InkWell(
+          splashColor: Colors.purple,
+          highlightColor: Colors.green,
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return ScreenTypeTime(name, minutes);
+              },
+            ));
+          },
+          child: Card(
+            elevation: 15,
+            child: icon,
+          )),
     );
   }
 }

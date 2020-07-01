@@ -7,14 +7,15 @@ import 'package:provider/provider.dart';
 
 class ScreenTypeTime extends StatefulWidget {
   final String type;
-  ScreenTypeTime(this.type);
+  final int minutes;
+  ScreenTypeTime(this.type, this.minutes);
   @override
   _ScreenTypeTimeState createState() => _ScreenTypeTimeState();
 }
 
 class _ScreenTypeTimeState extends State<ScreenTypeTime> {
   ProviderToddlerTimes provider;
-  List<ModelToddlerTime> listItems = []; 
+  List<ModelToddlerTime> listItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _ScreenTypeTimeState extends State<ScreenTypeTime> {
                   body: "It's ${widget.type} time",
                   title: "${widget.type} time!")
               .showNotificationAfterDuration(
-            Duration(seconds: 5),
+            Duration(minutes: widget.minutes),
           );
           provider.addTime(ModelToddlerTime(
               date: DateTime.now(),

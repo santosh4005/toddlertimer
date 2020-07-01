@@ -78,7 +78,17 @@ class NotificationHelper {
 
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+
+    await _deleteNotificationChannel('second channel ID');
+    
     await flutterLocalNotificationsPlugin.schedule(
         1, title, body, timeDelayed, notificationDetails);
+  }
+
+  Future<void> _deleteNotificationChannel(var channelId) async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.deleteNotificationChannel(channelId);
   }
 }
