@@ -92,14 +92,14 @@ class _ScreenTypeTimeState extends State<ScreenTypeTime> {
                       onPressed: () => Navigator.of(context).pop(true),
                     )
                   ],
-                  title: Text("Hmmm...."),
+                  title: Text("DELETE RECORD"),
                   content: Text("Are you sure you want to delete this entry?"),
                 )),
             onDismissed: (direction) async {
               await provider.deleteRecord(items[index].id);
               Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Deleted ${items[index].type} from the list"),
+                content: Text("Deleted ${items[index].type} entry from the list"),
               ));
             },
             child: ListTile(

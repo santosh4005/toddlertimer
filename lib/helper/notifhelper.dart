@@ -66,10 +66,13 @@ class NotificationHelper {
   }
 
   Future<void> showNotificationAfterDuration(Duration duration) async {
+var channelId = '$title Channel ID';
+
+
     var timeDelayed = DateTime.now().add(duration);
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
-            'second channel ID', 'second Channel title', 'second channel body',
+            channelId, 'second Channel title', 'second channel body',
             priority: Priority.High,
             importance: Importance.Max,
             ticker: 'test');
@@ -79,8 +82,8 @@ class NotificationHelper {
     NotificationDetails notificationDetails =
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
 
-    await _deleteNotificationChannel('second channel ID');
-    
+    await _deleteNotificationChannel(channelId);
+
     await flutterLocalNotificationsPlugin.schedule(
         1, title, body, timeDelayed, notificationDetails);
   }
