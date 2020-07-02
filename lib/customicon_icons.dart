@@ -16,6 +16,10 @@
 ///         Author:    Daniel Bruce
 ///         License:   SIL (http://scripts.sil.org/OFL)
 ///         Homepage:  http://www.entypo.com
+/// * Fontelico, Copyright (C) 2012 by Fontello project
+///         Author:    Crowdsourced, for Fontello project
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://fontello.com
 /// * RPG Awesome, Copyright (c) 2014, Daniela Howe
 ///         Author:    Daniela Howe & Ivan Montiel
 ///         License:   SIL (http://scripts.sil.org/OFL)
@@ -35,6 +39,7 @@ class Customicon {
 
   static const IconData droplet = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData water = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData emo_sleep = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData droplets = IconData(0xe9aa, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData shower = IconData(0xf2cc, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData toilet_paper = IconData(0xf71e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

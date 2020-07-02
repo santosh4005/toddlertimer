@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toddlertimer/customicon_icons.dart';
+import 'package:toddlertimer/helper/constants.dart';
+import 'package:toddlertimer/models/timers.dart';
+import 'package:toddlertimer/provider/timers.dart';
+import 'package:toddlertimer/screens/settings.dart';
 import 'package:toddlertimer/screens/typetime.dart';
 import '../provider/times.dart';
 
@@ -14,7 +18,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ProviderToddlerTimes provider;
+  ProviderToddlerTimes providerMain;
+  ModelTimerSetting timerSettings;
   var _isInit = true;
   var _isLoading = false;
 
@@ -36,42 +41,28 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _getProviderTimeslist() async {
     await Provider.of<ProviderToddlerTimes>(context, listen: false)
         .fetchAndSetTimes();
+
+    timerSettings =
+        await Provider.of<ProviderTimerHelper>(context, listen: false)
+            .fetchTimerSettings();
   }
 
   @override
   Widget build(BuildContext context) {
-    provider = Provider.of<ProviderToddlerTimes>(context, listen: false);
+    providerMain = Provider.of<ProviderToddlerTimes>(context, listen: false);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(widget.title),
-        elevation: 0,
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: (value) {
               if (value == "settings") {
-                showDialog(
-                  context: context,
-                  child: AlertDialog(
-                    title: Text("Coming soon..."),
-                    actions: <Widget>[
-                      RaisedButton(
-                        child: Text("Don't give a sh*t"),
-                        color: Theme.of(context).errorColor,
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      RaisedButton(
-                        child: Text("Cool"),
-                        color: Theme.of(context).accentColor,
-                        onPressed: () => Navigator.of(context).pop(),
-                      )
-                    ],
-                  ),
-                );
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => CybertruckSettings(),
-                // ));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ScreenToddlerTimerSettings(),
+                ));
               } else if (value == "reset") {
                 showDialog(
                     context: context,
@@ -90,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.red,
                             onPressed: () {
                               Navigator.of(context).pop(true);
-                              provider.deleteDatabase();
+                              providerMain.deleteDatabase();
                             })
                       ],
                     ));
@@ -112,12 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Container(
-        // decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //   colors: [Colors.black, Colors.pink],
-        //   begin: Alignment.topRight,
-        //   end: Alignment.bottomLeft,
-        // )),
+        decoration: gradientBoxDecoration1,
         child: SafeArea(
           child: _isLoading
               ? CircularProgressIndicator()
@@ -132,10 +118,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(
                           Customicon.toilet,
                           size: 80,
-                          color: Colors.white,
+                          color: Theme.of(context).accentColor,
                         ),
                         name: "Bathroom",
-                        minutes: 120),
+                        minutes: timerSettings.bathroom),
                     buildGridTile(context,
                         icon: Icon(
                           Customicon.droplets,
@@ -143,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Theme.of(context).accentColor,
                         ),
                         name: "Water",
-                        minutes: 60),
+                        minutes: timerSettings.water),
                     buildGridTile(context,
                         icon: Icon(
                           Icons.fastfood,
@@ -151,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.yellow,
                         ),
                         name: "Food",
-                        minutes: 120),
+                        minutes: timerSettings.food),
                     buildGridTile(context,
                         icon: Icon(
                           Icons.motorcycle,
@@ -159,7 +145,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.pink,
                         ),
                         name: "Play Time",
-                        minutes: 120),
+                        minutes: timerSettings.playtime),
+                    buildGridTile(context,
+                        icon: Icon(
+                          Customicon.emo_sleep,
+                          size: 80,
+                          color: Colors.blue,
+                        ),
+                        name: "Nap Time",
+                        minutes: timerSettings.naptime),
                   ],
                 ),
         ),
@@ -168,15 +162,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   GridTile buildGridTile(BuildContext context,
-      {Icon icon, String name, int minutes}) {
+      {Icon icon, String name, int minutes, bool isOvernight = false}) {
+    int minutesToAdd = isOvernight
+        ? minutes
+        : DateTime.now().add(Duration(minutes: minutes)).hour < 19 && DateTime.now().add(Duration(minutes: minutes)).hour > 4
+            ? minutes
+            : 0;
     return GridTile(
       child: InkWell(
+          focusColor: Colors.pink,
+          
           splashColor: Colors.purple,
           highlightColor: Colors.green,
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) {
-                return ScreenTypeTime(name, minutes);
+                return ScreenTypeTime(name, minutesToAdd, icon.icon);
+              },
+            ));
+          },
+          onLongPress: () {
+             Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                return ScreenToddlerTimerSettings();
               },
             ));
           },
