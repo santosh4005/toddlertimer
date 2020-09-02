@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Constants that can be used by any widget through out the applicaiton
 const gradientBoxDecoration = BoxDecoration(
     gradient: LinearGradient(
   colors: [
