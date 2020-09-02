@@ -9,10 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
-
-    container:
-      image:  google/dart:latest
+    runs-on: windows-latest 
 
     steps:
     - uses: actions/checkout@v2
